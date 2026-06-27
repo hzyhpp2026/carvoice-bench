@@ -1,0 +1,87 @@
+# CarVoice Bench 演示测试计划
+# 执行: carvoice-bench run --test-plan examples/test_plan.yaml --audio-dir ./audio --output-dir ./report
+
+project:
+  name: "CarVoice Bench 演示"
+  version: "1.0.0"
+
+asr:
+  model: "whisper-base-zh"
+  language: "zh"
+  sample_rate: 16000
+
+can:
+  bus_type: "socketcan"
+  channel: "can0"
+  db_path: "./vehicle.dbc"
+
+test_cases:
+  - id: "tc-001"
+    description: "打开主驾空调到26度"
+    utterance: "打开主驾空调到26度"
+    expected_asr: "打开主驾空调到26度"
+    expected_semantics:
+      intent: "set_climate"
+      slots:
+        zone: "driver"
+        temperature: 26
+    expected_can_signals:
+      - frame_id: "0x2A1"
+        signals:
+          AC_MAIN_DRIVER: 1
+          AC_TEMP_SET: 26
+    expected_ui_changes:
+      - element: "ac_panel"
+        state: "visible"
+      - element: "temp_display"
+        value: "26℃"
+    timeout_ms: 5000
+
+  - id: "tc-002"
+    description: "关闭所有车窗"
+    utterance: "关闭所有车窗"
+    expected_asr: "关闭所有车窗"
+    expected_semantics:
+      intent: "control_window"
+      slots:
+        target: "window"
+        zone: "all"
+        action: "close"
+    expected_can_signals:
+      - frame_id: "0x1C1"
+        signals:
+          WINDOW_ALL: 0
+    timeout_ms: 5000
+
+  - id: "tc-003"
+    description: "路况嘈杂环境 - 导航指令"
+    utterance: "导航到公司"
+    expected_asr: "导航到公司"
+    expected_semantics:
+      intent: "navigate"
+      slots:
+        destination: "公司"
+    timeout_ms: 8000
+
+  - id: "tc-004"
+    description: "无效指令"
+    utterance: "阿巴阿巴"
+    expected_asr: ""
+    timeout_ms: 3000
+
+  - id: "tc-005"
+    description: "多轮对话 - 空调温度调节"
+    utterance: "温度调到最低"
+    expected_asr: "温度调到最低"
+    expected_semantics:
+      intent: "set_climate"
+      slots:
+        temperature: 18
+    expected_can_signals:
+      - frame_id: "0x2A1"
+        signals:
+          AC_TEMP_SET: 18
+    expected_ui_changes:
+      - element: "temp_display"
+        value: "18℃"
+    timeout_ms: 5000

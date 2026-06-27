@@ -1,0 +1,97 @@
+safety:
+  allowed_domains:
+    - climate
+    - window
+    - seat
+    - media
+    - navigation
+    - information
+    - communication
+    - vehicle_status
+    - ambient
+    - app
+    - cross_domain
+  required_vehicle_states:
+    - bench
+    - parked
+  max_timeout_ms: 10000
+
+defaults:
+  domain: climate
+  expected_response: "已为您设置完成"
+  mandatory_oracles:
+    - voice
+    - can
+    - ui
+  preconditions:
+    vehicle_state: bench
+  cleanup: "恢复测试前座舱状态"
+  timeout_ms: 5000
+  expected_can_signals:
+    - frame_id: "0x2A1"
+      signals:
+        AC_MAIN_DRIVER: 1
+        AC_TEMP_SET: 26
+  expected_ui_changes:
+    - element: ac_panel
+      state: visible
+    - element: temp_display
+      value: "26℃"
+
+# Only configured strategies are eligible for UCB selection. Parameters are data,
+# never executable code, and remain subject to the normal safety policy.
+exploration:
+  ucb_exploration_coefficient: 1.2
+  enabled_strategies:
+    - synonym
+    - multi_turn
+    - interruption
+    - cabin_noise_profile
+    - compound_command
+    - constraint_negation
+    - semantic_slot_completeness
+    - fuzzy_intent
+    - context_reference
+    - context_correction
+    - cross_domain_chain
+    - rejection_boundary
+    - intent_slot_accuracy
+    - multi_turn_retention
+    - clarification_correctness
+    - false_wakeup_rate
+    - audio_zone_crosstalk_rate
+    - execution_consistency
+    - degradation_authenticity
+  strategies:
+    synonym:
+      priority: 1.5
+      max_attempts: 8
+      replacements:
+        - from: "打开"
+          to: "开启"
+        - from: "调到"
+          to: "设置为"
+    multi_turn:
+      priority: 1.0
+      follow_ups:
+        - "保持刚才的设置"
+        - "现在是什么状态"
+    interruption:
+      priority: 1.2
+      events:
+        - type: user_interrupt
+          start_ms: 500
+          end_ms: 950
+        - type: user_interrupt
+          start_ms: 800
+          end_ms: 1300
+      tolerance_ms: 400
+    cabin_noise_profile:
+      type: case_patch
+      description: "Record a controlled cabin-noise condition for downstream audio synthesis."
+      priority: 0.8
+      max_attempts: 3
+      case_patch:
+        test_parameters:
+          noise_profile: cabin_low
+          speaker_distance_cm: 70

@@ -1,0 +1,56 @@
+# 内置车机 UI 元素定义
+# 可被用户自定义 elements.yaml 覆盖
+
+elements:
+  ac_panel:
+    category: panel
+    description: "空调控制面板"
+    tags: ["climate", "hvac"]
+  temp_display:
+    category: display
+    description: "温度数字显示"
+    tags: ["climate"]
+  nav_map:
+    category: panel
+    description: "导航地图区域"
+    tags: ["navigation"]
+  music_player:
+    category: panel
+    description: "音乐播放器面板"
+    tags: ["media"]
+  phone_dial:
+    category: panel
+    description: "电话拨号面板"
+    tags: ["phone"]
+  seat_control:
+    category: panel
+    description: "座椅控制面板"
+    tags: ["seat"]
+  volume_slider:
+    category: slider
+    description: "音量滑块"
+    tags: ["media", "common"]
+  warning_light:
+    category: icon
+    description: "故障警告灯"
+    tags: ["safety"]
+  home_button:
+    category: button
+    description: "主页按钮"
+    tags: ["common"]
+  back_button:
+    category: button
+    description: "返回按钮"
+    tags: ["common"]
+  media_play:
+    category: button
+    description: "播放按钮"
+    tags: ["media"]
+  media_pause:
+    category: button
+    description: "暂停按钮"
+    tags: ["media"]
+  voice_icon:
+    category: icon
+    description: "语音助手图标"
+    tags: ["voice"]

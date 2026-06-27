@@ -1,0 +1,47 @@
+# Secrets and local environment
+.env
+.env.*
+!.env.example
+
+# Python caches and build outputs
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+build/
+dist/
+*.egg-info/
+
+# Virtual environments and local dependency caches
+.venv/
+venv/
+.test_deps/
+
+# IDE and local agent state
+.idea/
+.vscode/
+.agents/
+.codex/
+
+# Runtime reports, temporary workspaces, and captured artifacts
+report_online/
+carvoice_report/
+carvoice_agent/
+agent_demo/
+test_run/
+*.sqlite3
+
+# Audio and video evidence should stay local
+*.wav
+*.mp3
+*.flac
+*.m4a
+*.aac
+*.ogg
+*.pcm
+*.mp4
+*.avi
+*.mov
+*.mkv

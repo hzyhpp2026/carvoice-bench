@@ -1,0 +1,102 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "carvoice-bench"
+version = "0.5.0"
+description = "车载语音自动化评测框架 — ASR延迟打点/TTS音频分析/CAN日志解析/UI状态校验一站式工具"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.9"
+
+authors = [
+    {name = "CarVoice Bench Team", email = "carvoice-bench@example.com"},
+]
+
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Automotive Industry",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Software Development :: Testing",
+    "Topic :: Automotive :: Voice Control",
+]
+
+dependencies = [
+    "click>=8.0.0",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+audio = [
+    "numpy>=1.21.0",
+    "scipy>=1.7.0",
+    "soundfile>=0.12.0",
+    "pydub>=0.25.0",
+    "librosa>=0.10.0",
+]
+asr = [
+    "numpy>=1.21.0",
+    "scipy>=1.7.0",
+    "torch>=1.12.0",
+    "torchaudio>=0.12.0",
+    "transformers>=4.30.0",
+    "jieba>=0.42.0",
+]
+tts = [
+    "numpy>=1.21.0",
+    "scipy>=1.7.0",
+    "soundfile>=0.12.0",
+    "torch>=1.12.0",
+    "librosa>=0.10.0",
+    "utmosv2 @ git+https://github.com/sarulab-speech/UTMOSv2.git",
+]
+can = [
+    "python-can>=4.0.0",
+    "cantools>=39.0.0",
+]
+ui = [
+    "numpy>=1.21.0",
+    "opencv-python>=4.8.0",
+    "pyautogui>=0.9.0",
+]
+report = [
+    "jinja2>=3.1.0",
+    "matplotlib>=3.5.0",
+    "weasyprint>=60.0",
+]
+online = [
+    "numpy>=1.21.0",
+    "dashscope>=1.25.2",
+    "sounddevice>=0.4.6",
+    "soundfile>=0.12.0",
+    "pydub>=0.25.0",
+    "opencv-python>=4.8.0",
+]
+agent = [
+    "pypdf>=4.0.0",
+]
+gpu = [
+    "torch>=1.12.0",
+    "torchaudio>=0.12.0",
+]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "black>=23.0.0",
+    "ruff>=0.1.0",
+    "mypy>=1.0.0",
+]
+
+[project.scripts]
+carvoice-bench = "carvoice_bench.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["carvoice_bench*"]
+
+[tool.setuptools.package-data]
+"carvoice_bench" = ["ui_verifier/elements.yaml", "report/templates/*.html", "report/templates/*.css"]

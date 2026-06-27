@@ -1,0 +1,948 @@
+{
+  "metadata": {
+    "framework": "carvoice-bench",
+    "version": "0.4.2",
+    "timestamp": "2026-05-17 15:10:22",
+    "config": {
+      "asr_model": "whisper-base-zh",
+      "asr_device": "cpu",
+      "asr_sample_rate": 16000,
+      "asr_language": "zh",
+      "tts_mos_model_path": null,
+      "tts_sample_rate": 24000,
+      "can_db_path": null,
+      "can_bus_type": "socketcan",
+      "can_channel": "can0",
+      "ui_confidence_threshold": 0.45,
+      "ui_template_path": null,
+      "ui_yolo_model_path": null,
+      "clock_ntp_server": "ntp.aliyun.com",
+      "audio_pts_interpolation": "linear",
+      "report_title": "CarVoice Bench Mock Demo Report",
+      "report_company": "",
+      "report_language": "zh-CN",
+      "enable_scoring": true,
+      "timeout_ms": 5000,
+      "output_dir": "D:\\ai_script\\carvoice-bench\\examples\\mock_report",
+      "verbose": true,
+      "debug": false,
+      "seed": 42,
+      "mock_mode": true,
+      "online_mode": false,
+      "cloud_provider": "aliyun",
+      "env_file": ".env",
+      "cloud_asr_model": "paraformer-realtime-v2",
+      "cloud_tts_model": "cosyvoice-v3-flash",
+      "cloud_tts_voice": "longxiaochun_v2",
+      "online_play_audio": false,
+      "online_record_seconds": 0.0,
+      "online_record_sample_rate": 16000,
+      "semantic_parser": "rule",
+      "semantic_rules_path": null,
+      "semantic_cloud_model": "qwen-plus"
+    },
+    "test_plan": {
+      "project": {
+        "name": "MockCarVoiceBench",
+        "version": "1.0.0"
+      },
+      "test_cases": [
+        {
+          "id": "tc-001",
+          "utterance": "打开主驾空调到26度",
+          "expected_asr": "打开主驾空调到26度",
+          "mock_asr_result": "打开主驾空调到26度",
+          "mock_latency_ms": 286,
+          "mock_mos": 4.42,
+          "expected_can_signals": [
+            {
+              "frame_id": "0x2A1",
+              "signals": {
+                "AC_MAIN_DRIVER": 1,
+                "AC_TEMP_SET": 26
+              }
+            }
+          ],
+          "expected_ui_changes": [
+            {
+              "element": "ac_panel",
+              "state": "visible"
+            },
+            {
+              "element": "temp_display",
+              "value": "26℃"
+            }
+          ],
+          "expected_semantics": {
+            "intent": "set_climate",
+            "slots": {
+              "zone": "driver",
+              "temperature": 26
+            }
+          },
+          "timeout_ms": 1500
+        },
+        {
+          "id": "tc-002",
+          "utterance": "导航到公司",
+          "expected_asr": "导航到公司",
+          "mock_asr_result": "导航到公司",
+          "mock_latency_ms": 241,
+          "mock_mos": 4.28,
+          "expected_ui_changes": [
+            {
+              "element": "nav_map",
+              "state": "visible"
+            }
+          ],
+          "dialogue": {
+            "turns": [
+              {
+                "role": "user",
+                "text": "导航到公司"
+              },
+              {
+                "role": "assistant",
+                "text": "已开始导航到公司"
+              }
+            ],
+            "expected_final_state": {
+              "domain": "navigation",
+              "active_route": "company"
+            }
+          },
+          "timeout_ms": 1500
+        },
+        {
+          "id": "tc-003",
+          "utterance": "播放周杰伦的歌",
+          "expected_asr": "播放周杰伦的歌",
+          "mock_asr_result": "播放周杰伦的歌",
+          "mock_latency_ms": 312,
+          "mock_mos": 4.36,
+          "expected_can_signals": [
+            {
+              "frame_id": "0x310",
+              "signals": {
+                "MEDIA_PLAY": 1
+              }
+            }
+          ],
+          "expected_ui_changes": [
+            {
+              "element": "music_player",
+              "state": "visible"
+            }
+          ],
+          "full_duplex": {
+            "scenario": "user_interruption",
+            "expected_events": [
+              {
+                "type": "user_interrupt",
+                "start_ms": 800,
+                "end_ms": 1300
+              }
+            ],
+            "expected_behavior": {
+              "barge_in_handled": true
+            },
+            "tolerance_ms": 500
+          },
+          "timeout_ms": 1500
+        }
+      ]
+    },
+    "enable_scoring": true,
+    "mock_mode": true
+  },
+  "summary": {
+    "total_cases": 3,
+    "passed": 3,
+    "failed": 0,
+    "pass_rate": 1.0,
+    "avg_asr_latency_ms": 279.67,
+    "max_asr_latency_ms": 312.0,
+    "p95_asr_latency_ms": 309.4,
+    "avg_wer": 0.0,
+    "avg_mos": 4.35,
+    "avg_can_match_rate": 1.0,
+    "avg_ui_match_rate": 1.0,
+    "avg_semantic_match_rate": 1.0,
+    "avg_full_duplex_match_rate": 1.0,
+    "avg_dialogue_match_rate": 1.0
+  },
+  "cases": [
+    {
+      "case_id": "tc-001",
+      "utterance": "打开主驾空调到26度",
+      "passed": true,
+      "fail_reasons": [],
+      "asr": {
+        "utterance": "打开主驾空调到26度",
+        "expected_asr": "打开主驾空调到26度",
+        "asr_result": "打开主驾空调到26度",
+        "confidence": 0.96,
+        "e2e_latency_ms": 286.0,
+        "processing_latency_ms": 206.0,
+        "wer": 0.0,
+        "wer_c": 0.0,
+        "cer": 0.0,
+        "wer_details": {
+          "wer": 0.0,
+          "insertions": 0,
+          "deletions": 0,
+          "substitutions": 0,
+          "reference_words": 10,
+          "hypothesis_words": 10,
+          "word_details": []
+        },
+        "audio_duration_ms": 1100.0
+      },
+      "tts": {
+        "mos": 4.42,
+        "naturalness": 4.47,
+        "smoothness": 4.34,
+        "mos_method": "mock",
+        "prosody": {
+          "duration_sec": 1.1,
+          "speed_syllables_per_sec": 4.6,
+          "pitch_mean_hz": 205.0,
+          "pause_count": 1
+        }
+      },
+      "can": {
+        "matched": true,
+        "match_rate": 1.0,
+        "total_signals": 2,
+        "matched_signals": 2,
+        "details": [
+          {
+            "frame_id": "0x2A1",
+            "expected_signals": {
+              "AC_MAIN_DRIVER": 1,
+              "AC_TEMP_SET": 26
+            },
+            "matched": true,
+            "found_at_ms": 536.0,
+            "matched_values": {
+              "AC_MAIN_DRIVER": 1,
+              "AC_TEMP_SET": 26
+            }
+          }
+        ]
+      },
+      "ui": {
+        "all_passed": true,
+        "match_rate": 1.0,
+        "passed": 2,
+        "total": 2,
+        "details": [
+          {
+            "element": "ac_panel",
+            "passed": true,
+            "state_match": true,
+            "value_match": true,
+            "expected": {
+              "element": "ac_panel",
+              "state": "visible"
+            },
+            "actual": {
+              "present": true,
+              "detected_value": "",
+              "method": "mock"
+            }
+          },
+          {
+            "element": "temp_display",
+            "passed": true,
+            "state_match": true,
+            "value_match": true,
+            "expected": {
+              "element": "temp_display",
+              "value": "26℃"
+            },
+            "actual": {
+              "present": true,
+              "detected_value": "26℃",
+              "method": "mock"
+            }
+          }
+        ]
+      },
+      "semantics": {
+        "intent_accuracy": 1.0,
+        "slot_precision": 1.0,
+        "slot_recall": 1.0,
+        "slot_f1": 1.0,
+        "slot_accuracy": 1.0,
+        "joint_goal_accuracy": 1.0,
+        "match_rate": 1.0,
+        "matched": true,
+        "total": 3,
+        "matched_items": 3,
+        "details": [
+          {
+            "field": "intent",
+            "expected": "set_climate",
+            "actual": "set_climate",
+            "matched": true
+          },
+          {
+            "field": "slot.zone",
+            "expected": "driver",
+            "actual": "driver",
+            "matched": true
+          },
+          {
+            "field": "slot.temperature",
+            "expected": 26,
+            "actual": 26,
+            "matched": true
+          }
+        ],
+        "expected": {
+          "intent": "set_climate",
+          "slots": {
+            "zone": "driver",
+            "temperature": 26
+          }
+        },
+        "actual": {
+          "intent": "set_climate",
+          "slots": {
+            "zone": "driver",
+            "temperature": 26
+          }
+        },
+        "source_text": "打开主驾空调到26度"
+      },
+      "full_duplex": {},
+      "dialogue": {},
+      "timeline": {
+        "case_id": "tc-001",
+        "utterance": "打开主驾空调到26度",
+        "events": [
+          {
+            "phase": "user_speech",
+            "time_ms": 0,
+            "detail": "user speech: 打开主驾空调到26度"
+          },
+          {
+            "phase": "asr_start",
+            "time_ms": 0,
+            "detail": "ASR processing started"
+          },
+          {
+            "phase": "asr_end",
+            "time_ms": 286.0,
+            "detail": "ASR result: 打开主驾空调到26度 (confidence: 0.96)"
+          },
+          {
+            "phase": "tts",
+            "time_ms": 336.0,
+            "detail": "TTS MOS: 4.42 | speed: 4.6 syl/s"
+          },
+          {
+            "phase": "can_execution",
+            "time_ms": 536.0,
+            "detail": "CAN match rate: 100%"
+          },
+          {
+            "phase": "ui_change",
+            "time_ms": 1136.0,
+            "detail": "UI match rate: 100%"
+          },
+          {
+            "phase": "semantic_understanding",
+            "time_ms": 456.0,
+            "detail": "semantic match rate: 100%"
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "tc-002",
+      "utterance": "导航到公司",
+      "passed": true,
+      "fail_reasons": [],
+      "asr": {
+        "utterance": "导航到公司",
+        "expected_asr": "导航到公司",
+        "asr_result": "导航到公司",
+        "confidence": 0.96,
+        "e2e_latency_ms": 241.0,
+        "processing_latency_ms": 161.0,
+        "wer": 0.0,
+        "wer_c": 0.0,
+        "cer": 0.0,
+        "wer_details": {
+          "wer": 0.0,
+          "insertions": 0,
+          "deletions": 0,
+          "substitutions": 0,
+          "reference_words": 5,
+          "hypothesis_words": 5,
+          "word_details": []
+        },
+        "audio_duration_ms": 1100.0
+      },
+      "tts": {
+        "mos": 4.28,
+        "naturalness": 4.33,
+        "smoothness": 4.2,
+        "mos_method": "mock",
+        "prosody": {
+          "duration_sec": 1.1,
+          "speed_syllables_per_sec": 4.6,
+          "pitch_mean_hz": 205.0,
+          "pause_count": 1
+        }
+      },
+      "can": {},
+      "ui": {
+        "all_passed": true,
+        "match_rate": 1.0,
+        "passed": 1,
+        "total": 1,
+        "details": [
+          {
+            "element": "nav_map",
+            "passed": true,
+            "state_match": true,
+            "value_match": true,
+            "expected": {
+              "element": "nav_map",
+              "state": "visible"
+            },
+            "actual": {
+              "present": true,
+              "detected_value": "",
+              "method": "mock"
+            }
+          }
+        ]
+      },
+      "semantics": {},
+      "full_duplex": {},
+      "dialogue": {
+        "matched": true,
+        "match_rate": 1.0,
+        "state_tracking_accuracy": 1.0,
+        "joint_goal_accuracy": 1.0,
+        "context_carryover_accuracy": 1.0,
+        "task_completion_rate": 1.0,
+        "turn_structure_accuracy": 1.0,
+        "total": 3,
+        "matched_items": 3,
+        "details": [
+          {
+            "field": "final_state.domain",
+            "expected": "navigation",
+            "actual": "navigation",
+            "matched": true
+          },
+          {
+            "field": "final_state.active_route",
+            "expected": "company",
+            "actual": "company",
+            "matched": true
+          },
+          {
+            "field": "turn_structure",
+            "expected": 2,
+            "actual": 2,
+            "matched": true
+          }
+        ],
+        "expected": {
+          "turns": [
+            {
+              "role": "user",
+              "text": "导航到公司"
+            },
+            {
+              "role": "assistant",
+              "text": "已开始导航到公司"
+            }
+          ],
+          "expected_final_state": {
+            "domain": "navigation",
+            "active_route": "company"
+          }
+        },
+        "actual": {
+          "turns": [
+            {
+              "role": "user",
+              "text": "导航到公司"
+            },
+            {
+              "role": "assistant",
+              "text": "已开始导航到公司"
+            }
+          ],
+          "expected_final_state": {
+            "domain": "navigation",
+            "active_route": "company"
+          },
+          "final_state": {
+            "domain": "navigation",
+            "active_route": "company"
+          },
+          "task_completed": true,
+          "context_carryover_accuracy": 1.0
+        }
+      },
+      "timeline": {
+        "case_id": "tc-002",
+        "utterance": "导航到公司",
+        "events": [
+          {
+            "phase": "user_speech",
+            "time_ms": 0,
+            "detail": "user speech: 导航到公司"
+          },
+          {
+            "phase": "asr_start",
+            "time_ms": 0,
+            "detail": "ASR processing started"
+          },
+          {
+            "phase": "asr_end",
+            "time_ms": 241.0,
+            "detail": "ASR result: 导航到公司 (confidence: 0.96)"
+          },
+          {
+            "phase": "tts",
+            "time_ms": 291.0,
+            "detail": "TTS MOS: 4.28 | speed: 4.6 syl/s"
+          },
+          {
+            "phase": "ui_change",
+            "time_ms": 1091.0,
+            "detail": "UI match rate: 100%"
+          },
+          {
+            "phase": "multi_turn_dialogue",
+            "time_ms": 471.0,
+            "detail": "dialogue match rate: 100%"
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "tc-003",
+      "utterance": "播放周杰伦的歌",
+      "passed": true,
+      "fail_reasons": [],
+      "asr": {
+        "utterance": "播放周杰伦的歌",
+        "expected_asr": "播放周杰伦的歌",
+        "asr_result": "播放周杰伦的歌",
+        "confidence": 0.96,
+        "e2e_latency_ms": 312.0,
+        "processing_latency_ms": 232.0,
+        "wer": 0.0,
+        "wer_c": 0.0,
+        "cer": 0.0,
+        "wer_details": {
+          "wer": 0.0,
+          "insertions": 0,
+          "deletions": 0,
+          "substitutions": 0,
+          "reference_words": 7,
+          "hypothesis_words": 7,
+          "word_details": []
+        },
+        "audio_duration_ms": 1100.0
+      },
+      "tts": {
+        "mos": 4.36,
+        "naturalness": 4.41,
+        "smoothness": 4.28,
+        "mos_method": "mock",
+        "prosody": {
+          "duration_sec": 1.1,
+          "speed_syllables_per_sec": 4.6,
+          "pitch_mean_hz": 205.0,
+          "pause_count": 1
+        }
+      },
+      "can": {
+        "matched": true,
+        "match_rate": 1.0,
+        "total_signals": 1,
+        "matched_signals": 1,
+        "details": [
+          {
+            "frame_id": "0x310",
+            "expected_signals": {
+              "MEDIA_PLAY": 1
+            },
+            "matched": true,
+            "found_at_ms": 562.0,
+            "matched_values": {
+              "MEDIA_PLAY": 1
+            }
+          }
+        ]
+      },
+      "ui": {
+        "all_passed": true,
+        "match_rate": 1.0,
+        "passed": 1,
+        "total": 1,
+        "details": [
+          {
+            "element": "music_player",
+            "passed": true,
+            "state_match": true,
+            "value_match": true,
+            "expected": {
+              "element": "music_player",
+              "state": "visible"
+            },
+            "actual": {
+              "present": true,
+              "detected_value": "",
+              "method": "mock"
+            }
+          }
+        ]
+      },
+      "semantics": {},
+      "full_duplex": {
+        "scenario": "user_interruption",
+        "matched": true,
+        "match_rate": 1.0,
+        "event_recall": 1.0,
+        "behavior_accuracy": 1.0,
+        "take_over_rate": 1.0,
+        "event_latency_ms": 0.0,
+        "stop_latency_ms": 180,
+        "response_latency_ms": 260.0,
+        "overlap_handling_score": 0.76,
+        "false_interruption_rate": 0.0,
+        "backchannel_frequency_per_sec": 0.0,
+        "backchannel_jsd": null,
+        "interruption_relevance_score": null,
+        "total": 2,
+        "matched_items": 2,
+        "details": [
+          {
+            "expected": {
+              "type": "user_interrupt",
+              "start_ms": 800,
+              "end_ms": 1300
+            },
+            "actual": {
+              "type": "user_interrupt",
+              "start_ms": 800,
+              "end_ms": 1300
+            },
+            "matched": true,
+            "latency_ms": 0.0
+          },
+          {
+            "field": "barge_in_handled",
+            "expected": true,
+            "actual": true,
+            "matched": true
+          }
+        ],
+        "expected": {
+          "scenario": "user_interruption",
+          "expected_events": [
+            {
+              "type": "user_interrupt",
+              "start_ms": 800,
+              "end_ms": 1300
+            }
+          ],
+          "expected_behavior": {
+            "barge_in_handled": true
+          },
+          "tolerance_ms": 500
+        },
+        "actual": {
+          "scenario": "user_interruption",
+          "expected_events": [
+            {
+              "type": "user_interrupt",
+              "start_ms": 800,
+              "end_ms": 1300
+            }
+          ],
+          "expected_behavior": {
+            "barge_in_handled": true
+          },
+          "tolerance_ms": 500,
+          "events": [
+            {
+              "type": "user_interrupt",
+              "start_ms": 800,
+              "end_ms": 1300
+            }
+          ],
+          "behavior": {
+            "barge_in_handled": true
+          },
+          "took_turn": true,
+          "response_latency_ms": 260,
+          "stop_latency_ms": 180,
+          "overlap_duration_ms": 120,
+          "false_interruption_rate": 0.0
+        }
+      },
+      "dialogue": {},
+      "timeline": {
+        "case_id": "tc-003",
+        "utterance": "播放周杰伦的歌",
+        "events": [
+          {
+            "phase": "user_speech",
+            "time_ms": 0,
+            "detail": "user speech: 播放周杰伦的歌"
+          },
+          {
+            "phase": "asr_start",
+            "time_ms": 0,
+            "detail": "ASR processing started"
+          },
+          {
+            "phase": "asr_end",
+            "time_ms": 312.0,
+            "detail": "ASR result: 播放周杰伦的歌 (confidence: 0.96)"
+          },
+          {
+            "phase": "tts",
+            "time_ms": 362.0,
+            "detail": "TTS MOS: 4.36 | speed: 4.6 syl/s"
+          },
+          {
+            "phase": "can_execution",
+            "time_ms": 562.0,
+            "detail": "CAN match rate: 100%"
+          },
+          {
+            "phase": "ui_change",
+            "time_ms": 1162.0,
+            "detail": "UI match rate: 100%"
+          },
+          {
+            "phase": "full_duplex",
+            "time_ms": 522.0,
+            "detail": "full-duplex match rate: 100%"
+          }
+        ]
+      }
+    }
+  ],
+  "asr": {
+    "avg_latency_ms": 279.67,
+    "avg_wer": 0.0,
+    "avg_wer_c": 0.0,
+    "total_utterances": 3
+  },
+  "tts": {
+    "avg_mos": 4.35,
+    "mos_distribution": {
+      "excellent_4.5+": 0,
+      "good_3.5_4.5": 3,
+      "fair_2.5_3.5": 0,
+      "poor_below_2.5": 0
+    },
+    "total_tts": 3
+  },
+  "can": {
+    "avg_match_rate": 1.0,
+    "match_rate": 1.0,
+    "total_checks": 2
+  },
+  "ui": {
+    "avg_match_rate": 1.0,
+    "total_passed": 4,
+    "total_checks": 4,
+    "total_cases": 3
+  },
+  "semantics": {
+    "avg_match_rate": 1.0,
+    "total_cases": 1,
+    "passed_cases": 1,
+    "avg_intent_accuracy": 1.0,
+    "avg_joint_goal_accuracy": 1.0,
+    "avg_slot_accuracy": 1.0,
+    "avg_slot_f1": 1.0,
+    "avg_slot_precision": 1.0,
+    "avg_slot_recall": 1.0
+  },
+  "full_duplex": {
+    "avg_match_rate": 1.0,
+    "total_cases": 1,
+    "passed_cases": 1,
+    "avg_backchannel_frequency_per_sec": 0.0,
+    "avg_behavior_accuracy": 1.0,
+    "avg_event_latency_ms": 0.0,
+    "avg_event_recall": 1.0,
+    "avg_false_interruption_rate": 0.0,
+    "avg_overlap_handling_score": 0.76,
+    "avg_response_latency_ms": 260.0,
+    "avg_stop_latency_ms": 180.0,
+    "avg_take_over_rate": 1.0
+  },
+  "dialogue": {
+    "avg_match_rate": 1.0,
+    "total_cases": 1,
+    "passed_cases": 1,
+    "avg_context_carryover_accuracy": 1.0,
+    "avg_joint_goal_accuracy": 1.0,
+    "avg_state_tracking_accuracy": 1.0,
+    "avg_task_completion_rate": 1.0,
+    "avg_turn_structure_accuracy": 1.0
+  },
+  "timeline": {
+    "events": [
+      {
+        "case_id": "tc-001",
+        "utterance": "打开主驾空调到26度",
+        "phase": "user_speech",
+        "time_ms": 0,
+        "detail": "user speech: 打开主驾空调到26度"
+      },
+      {
+        "case_id": "tc-001",
+        "utterance": "打开主驾空调到26度",
+        "phase": "asr_start",
+        "time_ms": 0,
+        "detail": "ASR processing started"
+      },
+      {
+        "case_id": "tc-001",
+        "utterance": "打开主驾空调到26度",
+        "phase": "asr_end",
+        "time_ms": 286.0,
+        "detail": "ASR result: 打开主驾空调到26度 (confidence: 0.96)"
+      },
+      {
+        "case_id": "tc-001",
+        "utterance": "打开主驾空调到26度",
+        "phase": "tts",
+        "time_ms": 336.0,
+        "detail": "TTS MOS: 4.42 | speed: 4.6 syl/s"
+      },
+      {
+        "case_id": "tc-001",
+        "utterance": "打开主驾空调到26度",
+        "phase": "can_execution",
+        "time_ms": 536.0,
+        "detail": "CAN match rate: 100%"
+      },
+      {
+        "case_id": "tc-001",
+        "utterance": "打开主驾空调到26度",
+        "phase": "ui_change",
+        "time_ms": 1136.0,
+        "detail": "UI match rate: 100%"
+      },
+      {
+        "case_id": "tc-001",
+        "utterance": "打开主驾空调到26度",
+        "phase": "semantic_understanding",
+        "time_ms": 456.0,
+        "detail": "semantic match rate: 100%"
+      },
+      {
+        "case_id": "tc-002",
+        "utterance": "导航到公司",
+        "phase": "user_speech",
+        "time_ms": 0,
+        "detail": "user speech: 导航到公司"
+      },
+      {
+        "case_id": "tc-002",
+        "utterance": "导航到公司",
+        "phase": "asr_start",
+        "time_ms": 0,
+        "detail": "ASR processing started"
+      },
+      {
+        "case_id": "tc-002",
+        "utterance": "导航到公司",
+        "phase": "asr_end",
+        "time_ms": 241.0,
+        "detail": "ASR result: 导航到公司 (confidence: 0.96)"
+      },
+      {
+        "case_id": "tc-002",
+        "utterance": "导航到公司",
+        "phase": "tts",
+        "time_ms": 291.0,
+        "detail": "TTS MOS: 4.28 | speed: 4.6 syl/s"
+      },
+      {
+        "case_id": "tc-002",
+        "utterance": "导航到公司",
+        "phase": "ui_change",
+        "time_ms": 1091.0,
+        "detail": "UI match rate: 100%"
+      },
+      {
+        "case_id": "tc-002",
+        "utterance": "导航到公司",
+        "phase": "multi_turn_dialogue",
+        "time_ms": 471.0,
+        "detail": "dialogue match rate: 100%"
+      },
+      {
+        "case_id": "tc-003",
+        "utterance": "播放周杰伦的歌",
+        "phase": "user_speech",
+        "time_ms": 0,
+        "detail": "user speech: 播放周杰伦的歌"
+      },
+      {
+        "case_id": "tc-003",
+        "utterance": "播放周杰伦的歌",
+        "phase": "asr_start",
+        "time_ms": 0,
+        "detail": "ASR processing started"
+      },
+      {
+        "case_id": "tc-003",
+        "utterance": "播放周杰伦的歌",
+        "phase": "asr_end",
+        "time_ms": 312.0,
+        "detail": "ASR result: 播放周杰伦的歌 (confidence: 0.96)"
+      },
+      {
+        "case_id": "tc-003",
+        "utterance": "播放周杰伦的歌",
+        "phase": "tts",
+        "time_ms": 362.0,
+        "detail": "TTS MOS: 4.36 | speed: 4.6 syl/s"
+      },
+      {
+        "case_id": "tc-003",
+        "utterance": "播放周杰伦的歌",
+        "phase": "can_execution",
+        "time_ms": 562.0,
+        "detail": "CAN match rate: 100%"
+      },
+      {
+        "case_id": "tc-003",
+        "utterance": "播放周杰伦的歌",
+        "phase": "ui_change",
+        "time_ms": 1162.0,
+        "detail": "UI match rate: 100%"
+      },
+      {
+        "case_id": "tc-003",
+        "utterance": "播放周杰伦的歌",
+        "phase": "full_duplex",
+        "time_ms": 522.0,
+        "detail": "full-duplex match rate: 100%"
+      }
+    ],
+    "total_events": 20
+  }
+}

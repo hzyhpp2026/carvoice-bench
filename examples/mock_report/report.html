@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CarVoice Bench Mock Demo Report</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans SC', sans-serif; background: #f8fafc; color: #1e293b; }
+.container { max-width: 1200px; margin: 0 auto; padding: 24px; }
+.header { background: linear-gradient(135deg, #1e40af, #3b82f6); color: white; padding: 40px 24px; border-radius: 16px; margin-bottom: 28px; }
+.header h1 { font-size: 28px; margin-bottom: 8px; }
+.header .meta { opacity: 0.85; font-size: 14px; }
+.summary-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; margin-bottom: 28px; }
+.card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+.card .value { font-size: 32px; font-weight: 700; margin-bottom: 4px; }
+.card .label { font-size: 13px; color: #64748b; }
+.pass-rate { color: #22c55e; }
+.status-badge { display: inline-block; padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight: 600; }
+.status-pass { background: #dcfce7; color: #166534; }
+.status-fail { background: #fee2e2; color: #991b1b; }
+table { width: 100%; border-collapse: collapse; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.08); margin-bottom: 28px; }
+th { background: #f1f5f9; padding: 12px 16px; text-align: left; font-size: 13px; font-weight: 600; color: #475569; }
+td { padding: 12px 16px; border-top: 1px solid #e2e8f0; font-size: 14px; }
+tr:hover { background: #f8fafc; }
+.section-title { font-size: 20px; font-weight: 700; margin: 28px 0 16px; color: #0f172a; }
+.timeline { position: relative; padding-left: 28px; margin: 16px 0 28px; }
+.timeline::before { content: ''; position: absolute; left: 8px; top: 0; bottom: 0; width: 2px; background: #cbd5e1; }
+.timeline-item { position: relative; padding: 8px 0; }
+.timeline-item::before { content: ''; position: absolute; left: -24px; top: 14px; width: 12px; height: 12px; border-radius: 50%; background: #3b82f6; }
+.timeline-item.asr::before { background: #8b5cf6; }
+.timeline-item.tts::before { background: #f59e0b; }
+.timeline-item.can::before { background: #10b981; }
+.timeline-item.ui::before { background: #ec4899; }
+.timeline-item .time { font-size: 12px; color: #94a3b8; }
+.timeline-item .detail { font-size: 14px; }
+.gbt-table { margin-bottom: 28px; }
+footer { text-align: center; padding: 24px; color: #94a3b8; font-size: 12px; }
+</style>
+</head>
+<body>
+<div class="container">
+<div class="header">
+<h1>🚗 CarVoice Bench Mock Demo Report</h1>
+<div class="meta">评测时间: 2026-05-17 15:10:22 | 框架版本: 0.4.2
+| 通过率: <span class="pass-rate">100.0%</span></div>
+</div>
+
+<div class="summary-cards">
+<div class="card"><div class="value">3</div><div class="label">总用例数</div></div>
+<div class="card"><div class="value" style="color:#22c55e">3</div><div class="label">通过</div></div>
+<div class="card"><div class="value" style="color:#ef4444">0</div><div class="label">失败</div></div>
+<div class="card"><div class="value">279.67ms</div><div class="label">平均ASR延迟</div></div>
+<div class="card"><div class="value">4.35</div><div class="label">平均TTS MOS</div></div>
+<div class="card"><div class="value">0.0%</div><div class="label">平均WER</div></div>
+</div>
+
+<h2 class="section-title">📊 详细指标</h2>
+<div class="summary-cards">
+<div class="card">
+  <h3 style="font-size:15px;margin-bottom:12px;">🎙️ ASR</h3>
+  <div class="label">平均延迟: <b>279.67ms</b></div>
+  <div class="label">平均 WER: <b>0.00%</b></div>
+  <div class="label">平均 WER-C: <b>0.00%</b></div>
+  <div class="label">语料数: <b>3</b></div>
+</div>
+<div class="card">
+  <h3 style="font-size:15px;margin-bottom:12px;">🔊 TTS</h3>
+  <div class="label">平均 MOS: <b>4.35</b></div>
+  <div class="label">优秀 (4.5+): <b>0</b></div>
+  <div class="label">良好 (3.5-4.5): <b>3</b></div>
+  <div class="label">一般 (2.5-3.5): <b>0</b></div>
+  <div class="label">较差 (<2.5): <b>0</b></div>
+</div>
+<div class="card">
+  <h3 style="font-size:15px;margin-bottom:12px;">🚗 CAN</h3>
+  <div class="label">平均匹配率: <b>100.0%</b></div>
+  <div class="label">检查次数: <b>2</b></div>
+</div>
+<div class="card">
+  <h3 style="font-size:15px;margin-bottom:12px;">📺 UI</h3>
+  <div class="label">平均匹配率: <b>100.0%</b></div>
+  <div class="label">检测元素数: <b>4</b></div>
+</div>
+</div>
+
+<h2 class="section-title">⏱️ 全链路时间轴</h2>
+<div class="timeline">
+
+<div class="timeline-item">
+    <div class="time">0ms | <b>tc-001</b></div>
+    <div class="detail">user speech: 打开主驾空调到26度</div>
+</div>
+<div class="timeline-item asr">
+    <div class="time">0ms | <b>tc-001</b></div>
+    <div class="detail">ASR processing started</div>
+</div>
+<div class="timeline-item asr">
+    <div class="time">286ms | <b>tc-001</b></div>
+    <div class="detail">ASR result: 打开主驾空调到26度 (confidence: 0.96)</div>
+</div>
+<div class="timeline-item tts">
+    <div class="time">336ms | <b>tc-001</b></div>
+    <div class="detail">TTS MOS: 4.42 | speed: 4.6 syl/s</div>
+</div>
+<div class="timeline-item can">
+    <div class="time">536ms | <b>tc-001</b></div>
+    <div class="detail">CAN match rate: 100%</div>
+</div>
+<div class="timeline-item ui">
+    <div class="time">1136ms | <b>tc-001</b></div>
+    <div class="detail">UI match rate: 100%</div>
+</div>
+<div class="timeline-item">
+    <div class="time">456ms | <b>tc-001</b></div>
+    <div class="detail">semantic match rate: 100%</div>
+</div>
+<div class="timeline-item">
+    <div class="time">0ms | <b>tc-002</b></div>
+    <div class="detail">user speech: 导航到公司</div>
+</div>
+<div class="timeline-item asr">
+    <div class="time">0ms | <b>tc-002</b></div>
+    <div class="detail">ASR processing started</div>
+</div>
+<div class="timeline-item asr">
+    <div class="time">241ms | <b>tc-002</b></div>
+    <div class="detail">ASR result: 导航到公司 (confidence: 0.96)</div>
+</div>
+<div class="timeline-item tts">
+    <div class="time">291ms | <b>tc-002</b></div>
+    <div class="detail">TTS MOS: 4.28 | speed: 4.6 syl/s</div>
+</div>
+<div class="timeline-item ui">
+    <div class="time">1091ms | <b>tc-002</b></div>
+    <div class="detail">UI match rate: 100%</div>
+</div>
+<div class="timeline-item">
+    <div class="time">471ms | <b>tc-002</b></div>
+    <div class="detail">dialogue match rate: 100%</div>
+</div>
+<div class="timeline-item">
+    <div class="time">0ms | <b>tc-003</b></div>
+    <div class="detail">user speech: 播放周杰伦的歌</div>
+</div>
+<div class="timeline-item asr">
+    <div class="time">0ms | <b>tc-003</b></div>
+    <div class="detail">ASR processing started</div>
+</div>
+<div class="timeline-item asr">
+    <div class="time">312ms | <b>tc-003</b></div>
+    <div class="detail">ASR result: 播放周杰伦的歌 (confidence: 0.96)</div>
+</div>
+<div class="timeline-item tts">
+    <div class="time">362ms | <b>tc-003</b></div>
+    <div class="detail">TTS MOS: 4.36 | speed: 4.6 syl/s</div>
+</div>
+<div class="timeline-item can">
+    <div class="time">562ms | <b>tc-003</b></div>
+    <div class="detail">CAN match rate: 100%</div>
+</div>
+<div class="timeline-item ui">
+    <div class="time">1162ms | <b>tc-003</b></div>
+    <div class="detail">UI match rate: 100%</div>
+</div>
+<div class="timeline-item">
+    <div class="time">522ms | <b>tc-003</b></div>
+    <div class="detail">full-duplex match rate: 100%</div>
+</div>
+</div>
+
+<h2 class="section-title">📋 用例明细</h2>
+<table>
+<thead><tr>
+<th>用例ID</th><th>语音指令</th><th>状态</th><th>WER</th><th>延迟</th><th>MOS</th><th>CAN匹配</th><th>失败原因</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>tc-001</td>
+<td>打开主驾空调到26度</td>
+<td><span class="status-badge status-pass">✅ 通过</span></td>
+<td>0.0%</td>
+<td>286.0ms</td>
+<td>4.42</td>
+<td>100%</td>
+<td style="font-size:12px;color:#ef4444">-</td>
+</tr><tr>
+<td>tc-002</td>
+<td>导航到公司</td>
+<td><span class="status-badge status-pass">✅ 通过</span></td>
+<td>0.0%</td>
+<td>241.0ms</td>
+<td>4.28</td>
+<td>N/A</td>
+<td style="font-size:12px;color:#ef4444">-</td>
+</tr><tr>
+<td>tc-003</td>
+<td>播放周杰伦的歌</td>
+<td><span class="status-badge status-pass">✅ 通过</span></td>
+<td>0.0%</td>
+<td>312.0ms</td>
+<td>4.36</td>
+<td>100%</td>
+<td style="font-size:12px;color:#ef4444">-</td>
+</tr>
+</tbody>
+</table>
+
+<h2 class="section-title">📊 综合评分</h2>
+<p style="color:#64748b;font-size:13px;margin-bottom:12px;">评分基于实际测试指标加权计算，非官方标准认证。</p>
+<div class="summary-cards">
+<div class="card"><div class="value">95.7</div><div class="label">综合评分</div></div>
+<div class="card"><div class="value">优</div><div class="label">等级</div></div>
+</div>
+<table class="gbt-table">
+<thead><tr><th>考核项</th><th>权重</th><th>得分</th><th>加权分</th><th>达标</th></tr></thead>
+<tbody><tr>
+<td>ASR 识别准确率</td>
+<td>25%</td>
+<td>100.0</td>
+<td>25.0</td>
+<td>✅</td>
+</tr><tr>
+<td>ASR 响应时间</td>
+<td>15%</td>
+<td>94.4</td>
+<td>14.2</td>
+<td>✅</td>
+</tr><tr>
+<td>CAN 指令执行</td>
+<td>20%</td>
+<td>100.0</td>
+<td>20.0</td>
+<td>✅</td>
+</tr><tr>
+<td>TTS 自然度</td>
+<td>15%</td>
+<td>87.0</td>
+<td>13.0</td>
+<td>✅</td>
+</tr><tr>
+<td>UI 反馈</td>
+<td>15%</td>
+<td>100.0</td>
+<td>15.0</td>
+<td>✅</td>
+</tr><tr>
+<td>多模态同步</td>
+<td>10%</td>
+<td>85.0</td>
+<td>8.5</td>
+<td>✅</td>
+</tr></tbody>
+</table>
+
+<footer>Generated by <b>carvoice-bench v0.4.2</b> · </footer>
+</div>
+</body>
+</html>

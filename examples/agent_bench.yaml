@@ -1,0 +1,7 @@
+# Physical bench execution is blocked until this is explicitly true.
+safe_to_test: true
+play_audio: false
+record_seconds: 0
+record_video: false
+camera_index: 0
+video_fps: 20
