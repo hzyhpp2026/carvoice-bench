@@ -33,6 +33,13 @@ agent_demo/
 test_run/
 *.sqlite3
 
+# Local source documents and spreadsheets
+*.pdf
+*.xls
+*.xlsx
+*.xlsm
+*.xlsb
+
 # Audio and video evidence should stay local
 *.wav
 *.mp3
